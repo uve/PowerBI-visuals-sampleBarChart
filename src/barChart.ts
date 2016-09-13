@@ -78,7 +78,7 @@ module powerbi.extensibility.visual {
         let barChartDataPoints: BarChartDataPoint[] = [];
         let dataMax: number;
 
-        let colorPalette: IColorPalette = createColorPalette(host.colors).reset();
+        let colorPalette: IColorPalette = host.colorPalette;
         let objects = dataViews[0].metadata.objects;
         let barChartSettings: BarChartSettings = {
             enableAxis: {
@@ -88,13 +88,13 @@ module powerbi.extensibility.visual {
         for (let i = 0, len = Math.max(category.values.length, dataValue.values.length); i < len; i++) {
             let defaultColor: Fill = {
                 solid: {
-                    color: colorPalette.getColor(category.values[i]).value
+                    color: colorPalette.getColor(<string>category.values[i]).value
                 }
             }
 
             barChartDataPoints.push({
-                category: category.values[i],
-                value: dataValue.values[i],
+                category: <string>category.values[i],
+                value: <number>dataValue.values[i],
                 color: getCategoricalObjectValue<Fill>(category, i, 'colorSelector', 'fill', defaultColor).solid.color,
                 selectionId: host.createSelectionIdBuilder()
                     .withCategory(category, i)
