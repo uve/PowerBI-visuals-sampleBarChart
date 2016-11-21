@@ -103,6 +103,49 @@ module powerbi.extensibility.visual {
                     identities: selectionId ? [selectionId] : [],
                 });
             });
+
+            // --- Touch events ---
+
+            let touchStartEventName: string = TooltipServiceWrapper.touchStartEventName();
+            let touchEndEventName: string = TooltipServiceWrapper.touchEndEventName();
+            let isPointerEvent: boolean = TooltipServiceWrapper.usePointerEvents();
+
+            selection.on(touchStartEventName + '.tooltip', () => {
+                this.visualHostTooltipService.hide({
+                    isTouchEvent: true,
+                    immediately: true,
+                });
+
+                let tooltipEventArgs = this.makeTooltipEventArgs<T>(rootNode, isPointerEvent, true);
+                if (!tooltipEventArgs)
+                    return;
+                
+                let tooltipInfo = getTooltipInfoDelegate(tooltipEventArgs);
+                let selectionId = getDataPointIdentity(tooltipEventArgs);
+                
+                this.visualHostTooltipService.show({
+                    coordinates: tooltipEventArgs.coordinates,
+                    isTouchEvent: true,
+                    dataItems: tooltipInfo,
+                    identities: selectionId ? [selectionId] : [],
+                });
+            });
+
+            selection.on(touchEndEventName + '.tooltip', () => {
+                this.visualHostTooltipService.hide({
+                    isTouchEvent: true,
+                    immediately: false,
+                });
+
+                if (this.handleTouchTimeoutId)
+                    clearTimeout(this.handleTouchTimeoutId);
+
+                // At the end of touch action, set a timeout that will let us ignore the incoming mouse events for a small amount of time
+                // TODO: any better way to do this?
+                this.handleTouchTimeoutId = setTimeout(() => {
+                    this.handleTouchTimeoutId = undefined;
+                }, this.handleTouchDelay);
+            });
         }
 
         public hide(): void {
@@ -164,6 +207,44 @@ module powerbi.extensibility.visual {
             }
 
             return coordinates;
+        }
+
+        private static touchStartEventName(): string {
+            let eventName: string = "touchstart";
+
+            if (window["PointerEvent"]) {
+                // IE11
+                eventName = "pointerdown";
+            }
+
+            return eventName;
+        }
+
+        private static touchMoveEventName(): string {
+            let eventName: string = "touchmove";
+
+            if (window["PointerEvent"]) {
+                // IE11
+                eventName = "pointermove";
+            }
+
+            return eventName;
+        }
+
+        private static touchEndEventName(): string {
+            let eventName: string = "touchend";
+
+            if (window["PointerEvent"]) {
+                // IE11
+                eventName = "pointerup";
+            }
+
+            return eventName;
+        }
+        
+        private static usePointerEvents(): boolean {
+            let eventName = TooltipServiceWrapper.touchStartEventName();
+            return eventName === "pointerdown" || eventName === "MSPointerDown";
         }
     }
 }
