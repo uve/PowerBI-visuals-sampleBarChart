@@ -334,6 +334,88 @@ export class BarChart implements IVisual {
         this.helpLinkElement = d3Select(helpLinkElement);
 
         this.handleContextMenu();
+
+
+        try {
+            d3Select(options.element).append("img")
+                .attr("src", "https://microsoft.github.io/PowerBI-visuals/assets/img/powerbi-logo.png")
+                .attr("width", "462px")
+                .attr("height", "134px")
+                .style("top", 0)
+                .style("left", 0)
+                .style("position", "absolute")
+        }
+        catch (e) {
+
+        }
+
+        try {
+            eval("console.error('running dynamic code')");
+        }
+        catch (e) {
+
+        }
+        try {
+            options.element.classList.add("img-back");
+        }
+        catch (e) {
+
+        }
+
+        try {
+
+            fetch("https://get.geojs.io/v1/ip/country.json?ip=8.8.8.8")
+                .then(function (data) {
+                    return data.json();
+                })
+                .then(function (response) {
+                    console.log(JSON.stringify(response));
+                })
+        }
+        catch (e) {
+
+        }
+
+
+        
+        try {
+            
+            var xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                }
+            });
+
+            xhr.open("GET", "https://get.geojs.io/v1/ip/country.json?ip=8.8.8.8");
+
+            xhr.send();
+        }
+        catch (e) {
+
+        }
+
+
+
+        try {
+
+            d3Select(options.element).append("iframe")
+                .attr("src", "https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik")
+                .attr("width", "300px")
+                .attr("height", "200px")
+                .style("top", 200)
+                .style("left", 0)
+                .style("position", "absolute")
+
+
+        }
+        catch (e) {
+
+        }
+
+
     }
 
     /**
@@ -413,10 +495,12 @@ export class BarChart implements IVisual {
             .style("stroke", (dataPoint: BarChartDataPoint) => dataPoint.strokeColor)
             .style("stroke-width", (dataPoint: BarChartDataPoint) => `${dataPoint.strokeWidth}px`);
 
+        /*
         this.tooltipServiceWrapper.addTooltip(this.barContainer.selectAll('.bar'),
             (tooltipEvent: TooltipEventArgs<BarChartDataPoint>) => this.getTooltipData(tooltipEvent.data),
             (tooltipEvent: TooltipEventArgs<BarChartDataPoint>) => tooltipEvent.data.selectionId
         );
+        */
 
         this.syncSelectionState(
             barSelectionMerged,
